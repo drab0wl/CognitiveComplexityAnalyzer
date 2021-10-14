@@ -2,6 +2,8 @@
 
 Roslyn analyzer for [cognitive complexity](https://www.sonarsource.com/docs/CognitiveComplexity.pdf).
 
+Currently no support incrementing complexity for ternary operators yet.
+
 Supports Visual Studio 2022.
 
 ## Configuration
