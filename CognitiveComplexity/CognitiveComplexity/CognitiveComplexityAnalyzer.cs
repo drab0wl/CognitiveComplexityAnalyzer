@@ -32,7 +32,6 @@ namespace CognitiveComplexity
 
         public override void Initialize(AnalysisContext context)
         {
-            Debugger.Launch();
             context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
             context.EnableConcurrentExecution();
             context.RegisterSyntaxTreeAction(this.AnalyzeMethodComplexity);
@@ -40,36 +39,22 @@ namespace CognitiveComplexity
 
         private void AnalyzeMethodComplexity(SyntaxTreeAnalysisContext context)
         {
-            var logPath = @"D:\logs\cc.log";
-            File.WriteAllText(logPath, "");
             var config = context.Options.AnalyzerConfigOptionsProvider.GetOptions(context.Tree);
             config.TryGetValue($"{DotNetDiagnostic}.{ErrorDiagnosticId}.{ComplexityLimitKey}", out var configValue);
             var maxCC = int.TryParse(configValue, out var _maxCC) ? _maxCC : DefaultComplexityLimit;
 
             config.TryGetValue($"{DotNetDiagnostic}.{ErrorDiagnosticId}.{ErrorsAsWarningsKey}", out configValue);
             var treatWarningAsError = bool.TryParse(configValue, out var _tEaW) ? _tEaW : false;
-            File.AppendAllText(logPath, "TWaE" + treatWarningAsError.ToString() + "\n");
 
             var root = context.Tree.GetRoot(context.CancellationToken);
             foreach(var method in root.DescendantNodes().OfType<MethodDeclarationSyntax>())
             {
-                File.AppendAllText(logPath, method.Identifier.ToString() + "\n");
-                try
-                {
-                    var walker = new SyntaxTreeWalker();
-                    var complexity = walker.GetComplexity(method);
-                    var overMaxRule = treatWarningAsError ? ErrorRule : WarningRule;
-                    File.AppendAllText(logPath, overMaxRule.Id.ToString() + "\n");
-                    var rule = complexity > maxCC ? overMaxRule : InfoRule;
-                    File.AppendAllText(logPath, rule.Id.ToString() + "\n");
-                    var diagnostic = Diagnostic.Create(rule, method.Identifier.GetLocation(), complexity);
-                    File.AppendAllText(logPath, diagnostic.ToString() + "\n");
-                    context.ReportDiagnostic(diagnostic);
-                }
-                catch (System.Exception e)
-{
-                    File.AppendAllText(logPath, e.ToString() + "\n");
-                }
+                var walker = new SyntaxTreeWalker();
+                var complexity = walker.GetComplexity(method);
+                var overMaxRule = treatWarningAsError ? ErrorRule : WarningRule;
+                var rule = complexity > maxCC ? overMaxRule : InfoRule;
+                var diagnostic = Diagnostic.Create(rule, method.Identifier.GetLocation(), complexity);
+                context.ReportDiagnostic(diagnostic);
             }
         }
     }
