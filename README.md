@@ -12,9 +12,4 @@ Configuration is accomplished by adding and editing an [editorconfig](https://do
 
 ### Max Complexity
 
-The default max complexity is 10. The setting is `dotnet_diagnostic.CC0001.max_cognitive_complexity`. Anything above this setting will result in an warning. 
-
-### Treat Warnings as Errors
-
-There is an option to treat warnings as errors.  The settings is `dotnet_diagnostic.CC0001.treat_warnings_as_errors`.
-
+The default max complexity is 10. The setting is `dotnet_diagnostic.CC0001.max_cognitive_complexity`. Anything above this setting will result in an warning.

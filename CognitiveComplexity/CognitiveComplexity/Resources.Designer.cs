@@ -70,20 +70,38 @@ namespace CognitiveComplexity {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cognitive Complexity: {0}.
+        ///   Looks up a localized string similar to Cognitive Complexity.
         /// </summary>
-        internal static string AnalyzerMessageFormat {
+        internal static string CognitiveComplexity {
             get {
-                return ResourceManager.GetString("AnalyzerMessageFormat", resourceCulture);
+                return ResourceManager.GetString("CognitiveComplexity", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cognitive Complexity.
+        ///   Looks up a localized string similar to Cognitive complexity: {0}.
         /// </summary>
-        internal static string AnalyzerTitle {
+        internal static string CognitiveComplexityMessge {
             get {
-                return ResourceManager.GetString("AnalyzerTitle", resourceCulture);
+                return ResourceManager.GetString("CognitiveComplexityMessge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to High Cognitive Complexity.
+        /// </summary>
+        internal static string HighCognitiveComplexity {
+            get {
+                return ResourceManager.GetString("HighCognitiveComplexity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cognitive complexity ({0}) exceeds maximum threshold.
+        /// </summary>
+        internal static string HighCognitiveComplexityMessage {
+            get {
+                return ResourceManager.GetString("HighCognitiveComplexityMessage", resourceCulture);
             }
         }
     }
