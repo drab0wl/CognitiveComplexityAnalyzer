@@ -6,3 +6,4 @@ Rule ID | Category | Severity | Notes
 --------|----------|----------|-------
 CC0001 | Complexity | Error | CognitiveComplexityAnalyzer
 CC0002 | Complexity | Info | CognitiveComplexityAnalyzer
+CC0003 | Complexity | Warning | CognitiveComplexityAnalyzer

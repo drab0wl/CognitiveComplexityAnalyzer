@@ -12,8 +12,11 @@ namespace CognitiveComplexity
     {
         public const string ErrorDiagnosticId = "CC0001";
         public const string InfoDiagnosticId = "CC0002";
+        public const string WarningDiagnosticId = "CC0003";
         private const string Category = "Complexity";
+        private const string DotNetDiagnostic = "dotnet_diagnostic";
         private const string ComplexityLimitKey = "max_cognitive_complexity";
+        private const string ErrorsAsWarningsKey = "treat_errors_as_warnings";
         private const int DefaultComplexityLimit = 10;
         private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.AnalyzerTitle), Resources.ResourceManager, typeof(Resources));
         private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Resources.AnalyzerMessageFormat), Resources.ResourceManager, typeof(Resources));
@@ -21,6 +24,7 @@ namespace CognitiveComplexity
 
         private static readonly DiagnosticDescriptor ErrorRule = new DiagnosticDescriptor(ErrorDiagnosticId, Title, MessageFormat, Category, DiagnosticSeverity.Error, isEnabledByDefault: true, description: Description);
         private static readonly DiagnosticDescriptor InfoRule = new DiagnosticDescriptor(InfoDiagnosticId, Title, MessageFormat, Category, DiagnosticSeverity.Info, isEnabledByDefault: true, description: Description);
+        private static readonly DiagnosticDescriptor WarningRule = new DiagnosticDescriptor(WarningDiagnosticId, Title, MessageFormat, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get { return ImmutableArray.Create(ErrorRule, InfoRule); } }
 
@@ -35,15 +39,19 @@ namespace CognitiveComplexity
         private void AnalyzeMethodComplexity(SyntaxTreeAnalysisContext context)
         {
             var config = context.Options.AnalyzerConfigOptionsProvider.GetOptions(context.Tree);
-            config.TryGetValue($"dotnet_diagnostic.{ErrorDiagnosticId}.{ComplexityLimitKey}", out var configValue);
+            config.TryGetValue($"{DotNetDiagnostic}.{ErrorDiagnosticId}.{ComplexityLimitKey}", out var configValue);
             var maxCC = int.TryParse(configValue, out var _maxCC) ? _maxCC : DefaultComplexityLimit;
+
+            config.TryGetValue($"{DotNetDiagnostic}.{ErrorDiagnosticId}.{ErrorsAsWarningsKey}", out configValue);
+            var treatErrorAsWarning = bool.TryParse(configValue, out var _tEaW) ? _tEaW : false;
 
             var root = context.Tree.GetRoot(context.CancellationToken);
             foreach(var method in root.DescendantNodes().OfType<MethodDeclarationSyntax>())
             {
                 var walker = new SyntaxTreeWalker();
                 var complexity = walker.GetComplexity(method);
-                var rule = complexity > maxCC ? ErrorRule : InfoRule;
+                var overMaxRule = treatErrorAsWarning ? ErrorRule : WarningRule;
+                var rule = complexity > maxCC ? overMaxRule : InfoRule;
                 var diagnostic = Diagnostic.Create(rule, method.Identifier.GetLocation(), complexity);
                 context.ReportDiagnostic(diagnostic);
             }

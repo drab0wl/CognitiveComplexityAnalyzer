@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CognitiveComplexity.Package
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CognitiveComplexity.Vsix", "CognitiveComplexity\CognitiveComplexity.Vsix\CognitiveComplexity.Vsix.csproj", "{FAED872D-EC4D-490C-B463-0390F3403AA1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{CC811008-0171-4685-BF54-FB1FA17E7CEC}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{FAED872D-EC4D-490C-B463-0390F3403AA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FAED872D-EC4D-490C-B463-0390F3403AA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FAED872D-EC4D-490C-B463-0390F3403AA1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CC811008-0171-4685-BF54-FB1FA17E7CEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CC811008-0171-4685-BF54-FB1FA17E7CEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CC811008-0171-4685-BF54-FB1FA17E7CEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CC811008-0171-4685-BF54-FB1FA17E7CEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
