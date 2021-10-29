@@ -11,12 +11,12 @@ namespace CognitiveComplexity
 
     // todo: handle ternaries
 
-    internal class SyntaxTreeWalker : CSharpSyntaxWalker
+    internal class MethodSyntaxCCWalker : CSharpSyntaxWalker
     {
         private int _complexity = 0;
         private List<ExpressionSyntax> _previouslyVisitedExpressions = new List<ExpressionSyntax>();
 
-        public SyntaxTreeWalker() : base(Microsoft.CodeAnalysis.SyntaxWalkerDepth.Node)
+        public MethodSyntaxCCWalker() : base(Microsoft.CodeAnalysis.SyntaxWalkerDepth.Node)
         {
         }
 

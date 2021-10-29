@@ -2,9 +2,6 @@
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using System.Collections.Immutable;
-using System.Data;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 
 namespace CognitiveComplexity
@@ -49,7 +46,7 @@ namespace CognitiveComplexity
             var root = context.Tree.GetRoot(context.CancellationToken);
             foreach(var method in root.DescendantNodes().OfType<MethodDeclarationSyntax>())
             {
-                var walker = new SyntaxTreeWalker();
+                var walker = new MethodSyntaxCCWalker();
                 var complexity = walker.GetComplexity(method);
                 var overMaxRule = treatWarningAsError ? ErrorRule : WarningRule;
                 var rule = complexity > maxCC ? overMaxRule : InfoRule;
